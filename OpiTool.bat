@@ -2,20 +2,20 @@
 :menu
 cls
 echo ==============================
-echo  Optymalizacja Twojego komputera
+echo  OpiTool
 echo ==============================
-echo  1. Usun niepotrzebne pliki (Temp i Prefetch)
-echo  2. Ustaw Time Resolution na 1ms
-echo  3. Zmien plan zasilania na wysoka wydajnosc
-echo  4. Czyszczenie pamieci DNS
-echo  5. Wylaczenie animacji i efektow wizualnych
-echo  6. Zwolnienie pamieci RAM
-echo  7. Wylaczenie zbędnych usług
-echo  8. Tworzenie punktu przywracania systemu
-echo  9. Czyszczenie logow systemowych
-echo  0. Wyjscie
+echo  1. Delete unnecessary files (Temp and Prefetch)
+echo  2. Set Time Resolution to 1ms
+echo  3. Change power plan to High Performance
+echo  4. Clear DNS cache
+echo  5. Disable animations and visual effects
+echo  6. Free up memory (RAM)
+echo  7. Disable unnecessary services
+echo  8. Create a system restore point
+echo  9. Clear system logs
+echo  0. Exit
 echo ==============================
-set /p choice="Wybierz opcje (0-9): "
+set /p choice="Choose an option (0-9): "
 
 if "%choice%"=="1" goto clean_all
 if "%choice%"=="2" goto set_time_resolution
@@ -30,15 +30,15 @@ if "%choice%"=="0" goto end
 goto menu
 
 :clean_all
-echo Usuwanie niepotrzebnych plikow (Temp i Prefetch)...
+echo Deleting unnecessary files (Temp and Prefetch)...
 del /q /f %temp%\*
 del /q /f C:\Windows\Prefetch\*
-echo Pliki zostaly usuniete.
+echo Files have been deleted.
 pause
 goto menu
 
 :set_time_resolution
-echo Ustawianie Time Resolution na 1ms...
+echo Setting Time Resolution to 1ms...
 powershell -command "& {Add-Type -TypeDefinition @'
 using System.Runtime.InteropServices;
 public class TimeResolution {
@@ -48,74 +48,74 @@ public class TimeResolution {
     public static extern uint timeEndPeriod(uint period);
 }
 '@ -PassThru | ForEach-Object { $_::timeBeginPeriod(1) } }"
-echo Rozdzielczosc czasu ustawiona na 1ms.
+echo Time resolution has been set to 1ms.
 pause
 goto menu
 
 :high_performance
-echo Zmiana planu zasilania na wysoka wydajnosc...
+echo Changing power plan to High Performance...
 powershell -command "& {
-    $planHighPerformance = (powercfg /L | Select-String 'Wysoka wydajnosc').ToString().Split()[3]
-    $planUltimatePerformance = (powercfg /L | Select-String 'Najwyzsza wydajnosc').ToString().Split()[3]
+    $planHighPerformance = (powercfg /L | Select-String 'High performance').ToString().Split()[3]
+    $planUltimatePerformance = (powercfg /L | Select-String 'Ultimate performance').ToString().Split()[3]
     if ($planUltimatePerformance) {
-        Write-Output 'Ustawiam plan Najwyzsza wydajnosc...'
+        Write-Output 'Setting to Ultimate performance plan...'
         powercfg /S $planUltimatePerformance
     } elseif ($planHighPerformance) {
-        Write-Output 'Ustawiam plan Wysoka wydajnosc...'
+        Write-Output 'Setting to High performance plan...'
         powercfg /S $planHighPerformance
     } else {
-        Write-Output 'Plan Wysoka wydajnosc niedostepny. Upewnij sie, ze jest wlaczony.'
+        Write-Output 'High performance plan not available. Make sure it is enabled.'
     }
 }"
-echo Plan zasilania zostal zmieniony.
+echo Power plan has been changed.
 pause
 goto menu
 
 :flush_dns
-echo Czyszczenie pamieci DNS...
+echo Clearing DNS cache...
 ipconfig /flushdns
-echo Pamiec DNS zostala wyczyszczona.
+echo DNS cache has been cleared.
 pause
 goto menu
 
 :disable_animations
-echo Wylaczanie animacji i efektow wizualnych...
+echo Disabling animations and visual effects...
 powershell -command "Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name 'UserPreferencesMask' -Value 98,12,01,80,12,00,00,00"
-echo Animacje i efekty wizualne zostaly wylaczone.
+echo Animations and visual effects have been disabled.
 pause
 goto menu
 
 :free_memory
-echo Zwolnienie pamieci RAM...
+echo Freeing up memory (RAM)...
 powershell -command "[System.GC]::Collect(); [System.GC]::WaitForPendingFinalizers();"
-echo Pamiec RAM zostala zwolniona.
+echo Memory (RAM) has been freed.
 pause
 goto menu
 
 :disable_services
-echo Wylaczanie zbędnych usług...
+echo Disabling unnecessary services...
 net stop wuauserv
 net stop bits
-echo Zbedne uslugi zostaly wylaczone.
+echo Unnecessary services have been disabled.
 pause
 goto menu
 
 :create_restore_point
-echo Tworzenie punktu przywracania systemu...
-powershell -command "Checkpoint-Computer -Description 'Przed optymalizacją' -RestorePointType 'Modify_Settings'"
-echo Punkt przywracania systemu zostal utworzony.
+echo Creating system restore point...
+powershell -command "Checkpoint-Computer -Description 'Before optimization' -RestorePointType 'Modify_Settings'"
+echo A restore point has been created.
 pause
 goto menu
 
 :clean_logs
-echo Czyszczenie logów systemowych...
+echo Clearing system logs...
 powershell -command "wevtutil cl Application"
 powershell -command "wevtutil cl System"
-echo Logi systemowe zostaly wyczyszczone.
+echo System logs have been cleared.
 pause
 goto menu
 
 :end
-echo Do zobaczenia!
+echo Goodbye!
 pause
 exit
