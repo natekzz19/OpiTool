@@ -1,0 +1,54 @@
+How the OpiTool works?
+This batch file provides a set of optimization tools for your Windows computer. When executed, it offers a menu with various options for system optimization tasks. The user can select an option by entering the corresponding number, and the program will execute the desired action.
+
+Menu Options:
+Delete unnecessary files (Temp and Prefetch):
+
+This option removes temporary files from your system, including files in the Temp and Prefetch directories. These files can accumulate over time and take up unnecessary disk space.
+Set Time Resolution to 1ms:
+
+This option adjusts the system's time resolution, which can improve the accuracy of time-related operations. It uses PowerShell to set the resolution to 1 millisecond.
+Change power plan to High Performance:
+
+This option sets the computer’s power plan to "High Performance," which optimizes the system for maximum performance by disabling power-saving features that might limit CPU performance. If the system supports "Ultimate Performance," it will select that plan instead.
+Clear DNS cache:
+
+This option clears the DNS cache using the ipconfig /flushdns command. Clearing the DNS cache can help resolve DNS-related issues and improve network connectivity.
+Disable animations and visual effects:
+
+This option disables Windows system animations and visual effects to reduce system resource usage. It does this by modifying the registry key responsible for these settings.
+Free up memory (RAM):
+
+This option forces the system to collect and free unused memory by invoking the garbage collection process using PowerShell. It can help improve system performance when memory is under heavy use.
+Disable unnecessary services:
+
+This option disables some unnecessary background services, such as Windows Update (wuauserv) and Background Intelligent Transfer Service (bits). Disabling these services can improve system performance, especially on systems with limited resources.
+Create a system restore point:
+
+This option creates a restore point on your system. A restore point is a snapshot of your system’s configuration at a specific time. You can use it to restore your system to a previous state in case something goes wrong after performing optimizations.
+Clear system logs:
+
+This option clears the application and system logs using the wevtutil command. Clearing logs can help reduce the size of log files, but it should be done with caution as logs may contain useful information for troubleshooting.
+Exit:
+
+This option exits the program.
+How to Use the Program
+Download the file:
+
+Save the batch file (optimize.bat) to your computer.
+Run as Administrator:
+
+Right-click on the batch file and select "Run as administrator" to ensure the program has the necessary permissions to execute certain tasks, such as changing the power plan or stopping services.
+Choose an Option:
+
+After launching the program, you will see a menu with numbered options. Enter the number corresponding to the task you want to perform and press Enter.
+Wait for the Task to Complete:
+
+The program will execute the selected task and display a confirmation message once it’s finished.
+Repeat or Exit:
+
+After completing a task, the program will return to the main menu, where you can choose another option or exit the program.
+Important Notes:
+Some tasks, such as changing the power plan or disabling services, may require administrative privileges. Make sure to run the program as an administrator to avoid permission issues.
+Disabling services or clearing logs can be useful for optimizing system performance, but it may also affect system behavior. Be cautious when using these options.
+Creating a restore point before performing optimizations is recommended, especially if you are making significant changes to the system. This way, you can revert to a previous state if something goes wrong.
